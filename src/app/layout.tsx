@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ApolloClientProvider } from "./provider";
+import { Children } from "@/types/generalTypes";
 
 export const metadata: Metadata = {
   title: "Rick and Morty Characters",
@@ -8,13 +10,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<Children>) {
   return (
     <html lang="en">
       <body>
-        {children}
+        <ApolloClientProvider>
+          {children}
+        </ApolloClientProvider>
       </body>
     </html>
   );
