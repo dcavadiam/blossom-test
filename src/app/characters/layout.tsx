@@ -10,16 +10,15 @@ import { Children, SearchContextType } from "@/types/generalTypes";
 import { Character } from "@/types/queryTypes";
 import { useContext, useEffect, useState } from "react";
 import { SearchContext } from "@/context/search";
+import { CharactersContext } from "@/context/characters";
 
 const useCharacters = () => {
-
-    const { search } = useContext(SearchContext) as SearchContextType;
-    const [characters, setCharacters] = useState<Character[]>([]);
+    const { search } = useContext(SearchContext);
+    const { characters, setCharacters } = useContext(CharactersContext);
 
     const { data, loading, error } = useQuery(GET_CHARACTERS, {
         variables: {
             name: search
-
         }
     })
 

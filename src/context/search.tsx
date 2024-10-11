@@ -9,7 +9,10 @@ interface SearchContextType {
     setSearch: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const SearchContext = createContext<SearchContextType|undefined>(undefined);
+export const SearchContext = createContext<SearchContextType>({
+    search: "",
+    setSearch: () => {}
+});
 
 export const SearchProvider = ({children}: Children) => {
 
