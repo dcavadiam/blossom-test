@@ -3,6 +3,7 @@ import "./globals.css";
 import { ApolloClientProvider } from "./provider";
 import { Children } from "@/types/generalTypes";
 import { SearchProvider } from "@/context/search";
+import { CharactersProvider } from "@/context/characters";
 
 export const metadata: Metadata = {
   title: "Rick and Morty Characters",
@@ -17,7 +18,9 @@ export default function RootLayout({
       <body>
         <ApolloClientProvider>
           <SearchProvider>
-            {children}
+            <CharactersProvider>
+              {children}
+            </CharactersProvider>
           </SearchProvider>
         </ApolloClientProvider>
       </body>
