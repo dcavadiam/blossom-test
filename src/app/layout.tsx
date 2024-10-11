@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ApolloClientProvider } from "./provider";
 import { Children } from "@/types/generalTypes";
+import { SearchProvider } from "@/context/search";
 
 export const metadata: Metadata = {
   title: "Rick and Morty Characters",
@@ -15,7 +16,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ApolloClientProvider>
-          {children}
+          <SearchProvider>
+            {children}
+          </SearchProvider>
         </ApolloClientProvider>
       </body>
     </html>
