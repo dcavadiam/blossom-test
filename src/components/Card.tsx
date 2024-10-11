@@ -8,8 +8,8 @@ import { Character } from "@/types/queryTypes";
 export const CharacterCardList = ({ character }: { character: Character }) => {
     const { id, name, image, species } = character;
     return (
-        <Link href={`/characters/${id}`}>
-            <div className="flex flex-row justify-between items-center border-t rounded-lg border-gray-200 p-4 hover:bg-gray-200 ">
+        <Link href={`/characters/${id}`} className="border-t border-gray-200">
+            <div className="flex flex-row justify-between items-center rounded-lg p-4 hover:bg-gray-200 ">
                 <div className="flex items-center gap-2">
                     <Image loader={() => image} src={image} alt={`imagen de ${name}`} width={40} height={40} className="rounded-full" />
                     <div className="flex flex-col ">
