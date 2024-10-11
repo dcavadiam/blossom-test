@@ -2,22 +2,30 @@
 
 import { SearchIcon } from "../../public/icons/search"
 import { FiltersIcon } from "../../public/icons/filters"
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { SearchContext } from "@/context/search";
+import { SearchContextType } from "@/types/generalTypes";
+import { useDebouncedCallback } from "use-debounce";
 
 export const SearchBar = () => {
 
     const [showModal, setShowModal] = useState<boolean>(false);
+    const { search, setSearch } = useContext(SearchContext) as SearchContextType;
 
     const handleClickFilters = () => {
         setShowModal(!showModal);
     }
+
+    const handleSearch = useDebouncedCallback((value)=> {
+        setSearch(value)
+    }, 500)
 
 
     return (
         <div className="flex items-center justify-between w-full bg-gray-100 rounded-lg px-4 py-3 mb-5 relative">
             <span className="flex items-center gap-x-2">
                 <SearchIcon />
-                <input className=" bg-transparent w-full focus:outline-none placeholder-gray-400 text-[14px] font-semibold" type="text" placeholder="Search or filter results" />
+                <input className=" bg-transparent w-full focus:outline-none placeholder-gray-400 text-[14px] font-semibold" type="text" placeholder="Search or filter results" onChange={(e) => handleSearch(e.target.value) } defaultValue={search} />
             </span>
             <span className="p-1 hover:bg-gray-200 rounded-lg relative" onClick={handleClickFilters}>
                 <FiltersIcon isFilled={showModal} />

@@ -4,19 +4,37 @@ import { useQuery } from "@apollo/client";
 
 import { SearchBar } from "../../components/SearchBar";
 import { CharacterCardList } from "@/components/Card";
-
 import { GET_CHARACTERS } from "@/apollo/querys/querys";
 
-import { Children } from "@/types/generalTypes";
+import { Children, SearchContextType } from "@/types/generalTypes";
 import { Character } from "@/types/queryTypes";
+import { useContext, useEffect, useState } from "react";
+import { SearchContext } from "@/context/search";
 
 const useCharacters = () => {
-    const { data, loading, error } = useQuery(GET_CHARACTERS)
-    return { data, loading, error }
+
+    const { search } = useContext(SearchContext) as SearchContextType;
+    const [characters, setCharacters] = useState<Character[]>([]);
+
+    const { data, loading, error } = useQuery(GET_CHARACTERS, {
+        variables: {
+            name: search
+
+        }
+    })
+
+    useEffect(() => {
+        if (data && data.characters.results.length > 0) {
+            setCharacters(data.characters.results)
+        }
+    }, [data])
+
+    return { characters, loading, error }
+
 }
 
 export default function CharactersLayout({ children }: Children) {
-    const { data, loading, error } = useCharacters();
+    const { characters, loading, error } = useCharacters();
     return (
         <main className="w-full h-screen flex">
             <aside className="w-[450px] h-screen px-4">
@@ -29,13 +47,13 @@ export default function CharactersLayout({ children }: Children) {
                     error && <p>Error: {error.message}</p>
                 }
                 {
-                    !error && !loading && data && (
+                    !error && !loading && characters.length > 0 && (
                         <div className="flex flex-col overflow-y-auto max-h-[70vh]">
                             <span className="text-xs uppercase text-gray-400 font-semibold my-4">Starred characters</span>
                             {/* STARRED CHARACTERS */}
-                            <span className="text-xs uppercase text-gray-400 font-semibold my-4">Characters ({data.characters.results.length})</span>
+                            <span className="text-xs uppercase text-gray-400 font-semibold my-4">Characters ({characters.length})</span>
                             {
-                                data.characters.results.map(
+                                characters.map(
                                     (character: Character) => {
                                         return (
                                             <CharacterCardList key={character.id} character={character} />
