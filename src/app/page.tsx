@@ -1,5 +1,7 @@
+'use client';
+
+import { redirect } from "next/navigation";
+
 export default function Home() {
-  return (
-    <h1 className="">Rick and Morty Characters</h1>
-  );
+  redirect("/characters");
 }
