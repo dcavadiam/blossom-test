@@ -1,14 +1,16 @@
 'use client'
 
+import { useContext, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 
 import { SearchBar } from "../../components/SearchBar";
 import { CharacterCardList } from "@/components/Card";
+
 import { GET_CHARACTERS } from "@/apollo/querys/querys";
 
-import { Children, SearchContextType } from "@/types/generalTypes";
+import { Children } from "@/types/generalTypes";
 import { Character } from "@/types/queryTypes";
-import { useContext, useEffect, useState } from "react";
+
 import { SearchContext } from "@/context/search";
 import { CharactersContext } from "@/context/characters";
 
@@ -32,7 +34,7 @@ const useCharacters = () => {
 
 }
 
-export default function CharactersLayout({ children }: Children) {
+export default function CharactersLayout({ children }: { children: Children }) {
     const { characters, loading, error } = useCharacters();
     return (
         <main className="w-full h-screen flex">

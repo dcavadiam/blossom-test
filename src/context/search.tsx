@@ -14,7 +14,7 @@ export const SearchContext = createContext<SearchContextType>({
     setSearch: () => {}
 });
 
-export const SearchProvider = ({children}: Children) => {
+export const SearchProvider = ({children}: { children: Children }) => {
 
     const [search, setSearch] = useState<string>("");
 

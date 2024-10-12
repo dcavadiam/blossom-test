@@ -1,10 +1,12 @@
 'use client';
 
+import { useContext, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
+
 import { SearchIcon } from "../../public/icons/search"
 import { FiltersIcon } from "../../public/icons/filters"
-import React, { useContext, useState } from "react";
+
 import { SearchContext } from "@/context/search";
-import { useDebouncedCallback } from "use-debounce";
 import { CharactersContext } from "@/context/characters";
 
 export const SearchBar = () => {
