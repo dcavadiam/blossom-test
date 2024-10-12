@@ -54,7 +54,7 @@ export default function Page({ params }: { params: { id: string } }) {
     const { name, image, status, species, gender } = data.character
 
     return (
-        <div className="flex flex-col px-[5rem] py-[2rem]">
+        <div className="flex flex-col px-[5rem] py-[2rem] overflow-x-auto h-full">
             <Image loader={() => image} src={image} alt={`imagen de ${name}`} width={75} height={75} className="rounded-full" unoptimized={true} />
             <h1 className="text-[24px] font-bold">{name}</h1>
             <div className="flex flex-col gap-2 my-4">
