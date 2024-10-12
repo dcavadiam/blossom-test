@@ -13,7 +13,16 @@ type InputRef = HTMLInputElement | null;
 
 export default function Page({ params }: { params: { id: string } }) {
 
-    const [comments, setComments] = useState<CommentType[]>([]);
+    const [comments, setComments] = useState<CommentType[]>(() => {
+        if (typeof window !== "undefined") {
+            const storedComments = localStorage.getItem(`comments-${params.id}`)
+            if (storedComments) {
+                return JSON.parse(storedComments)
+            }
+        }
+        return []
+    });
+    
     const inputRef = useRef<InputRef>(null);
 
     const handleSubmitComment = () => {
@@ -24,6 +33,7 @@ export default function Page({ params }: { params: { id: string } }) {
             }
             const newComments = [...comments, comment]
             setComments(newComments)
+            localStorage.setItem(`comments-${params.id}`, JSON.stringify(newComments))
             inputRef.current.value = ""
         } else {
             alert("Please enter a comment")

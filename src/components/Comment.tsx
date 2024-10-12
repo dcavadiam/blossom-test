@@ -1,12 +1,12 @@
 import { Children } from "@/types/generalTypes"
-import { UserIcon } from "../../public/icons/User"
+import { UserIcon } from "../../public/icons/user"
 
 interface Props {
     children: Children;
     key: string;
 }
 
-export const Comment = ({key, children}: Props) => {
+export const Comment = ({ key, children }: Props) => {
     return (
         <div key={key} className="flex gap-2 m-4">
             <span className="mt-2">
