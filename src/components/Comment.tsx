@@ -8,7 +8,7 @@ interface Props {
 
 export const Comment = ({key, children}: Props) => {
     return (
-        <div className="flex gap-2 m-4">
+        <div key={key} className="flex gap-2 m-4">
             <span className="mt-2">
                 <UserIcon />
             </span>
