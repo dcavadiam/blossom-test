@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ApolloClientProvider } from "./provider";
+import { ApolloClientProvider } from "../apollo/provider";
 import { Children } from "@/types/generalTypes";
 import { SearchProvider } from "@/context/search";
 import { CharactersProvider } from "@/context/characters";
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<Children>) {
+}: Readonly<{ children: Children }>) {
   return (
     <html lang="en">
       <body>

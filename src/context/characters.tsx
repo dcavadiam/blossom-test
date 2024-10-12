@@ -15,7 +15,7 @@ export const CharactersContext = createContext<CharactersContextType>({
     setCharacters: () => { }
 });
 
-export const CharactersProvider = ({ children }: Children) => {
+export const CharactersProvider = ({ children }: { children: Children }) => {
     const [characters, setCharacters] = useState<Character[]>([]);
 
     return (
