@@ -3,21 +3,20 @@
 import { createContext, useState } from "react"
 
 import { Children } from "@/types/generalTypes"
-import { Character } from "@/types/queryTypes";
+import { CharacterWithFav } from "@/types/generalTypes"
 
 interface CharactersContextType {
-    characters: Character[];
-    setCharacters: React.Dispatch<React.SetStateAction<Character[]>>;
+    characters: CharacterWithFav[];
+    setCharacters: React.Dispatch<React.SetStateAction<CharacterWithFav[]>>;
 }
 
 export const CharactersContext = createContext<CharactersContextType>({
     characters: [],
-    setCharacters: () => { }
+    setCharacters: () => { },
 });
 
 export const CharactersProvider = ({ children }: { children: Children }) => {
-    const [characters, setCharacters] = useState<Character[]>([]);
-
+    const [characters, setCharacters] = useState<CharacterWithFav[]>([]);
     return (
         <CharactersContext.Provider value={{ characters, setCharacters }}>
             {children}

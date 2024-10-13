@@ -1,3 +1,5 @@
+import { Character } from "./queryTypes";
+
 // Children Props
 export type Children = React.ReactNode;
 
@@ -11,4 +13,13 @@ export interface SearchContextType {
 export interface CommentType {
     id: string;
     comment: string;
+}
+
+// Characters with Fav
+export type CharacterWithFav = Character & { isFav: boolean };
+
+// Favorites
+export interface FavoriteType {
+  id: string;
+  favorite: boolean;
 }
