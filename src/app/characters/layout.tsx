@@ -1,45 +1,80 @@
 'use client'
 
+import { useContext, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 
 import { SearchBar } from "../../components/SearchBar";
-import { CharacterCardList } from "@/components/Card";
+import { CharacterCardList } from "@/components/CharacterCardList";
 
 import { GET_CHARACTERS } from "@/apollo/querys/querys";
 
-import { Children } from "@/types/generalTypes";
-import { Character } from "@/types/queryTypes";
+import { CharacterWithFav, Children } from "@/types/generalTypes";
+
+import { SearchContext } from "@/context/search";
+import { CharactersContext } from "@/context/characters";
+import { FavoriteContext } from "@/context/favorite";
+import { OrbitProgress } from "react-loading-indicators";
+import { Error } from "@/components/Error";
 
 const useCharacters = () => {
-    const { data, loading, error } = useQuery(GET_CHARACTERS)
-    return { data, loading, error }
+    const { search } = useContext(SearchContext);
+    const { characters, setCharacters } = useContext(CharactersContext);
+    const { favorite } = useContext(FavoriteContext);
+
+    const { data, loading, error } = useQuery(GET_CHARACTERS, {
+        variables: {
+            name: search
+        }
+    })
+
+    useEffect(() => {
+        if (data && data.characters.results.length > 0) {
+            const newCharacters = data.characters.results.map((character: CharacterWithFav) => {
+                const characterIsFav = favorite.find(fav => fav.id === character.id)?.favorite
+                return {
+                    ...character,
+                    isFav: characterIsFav ? characterIsFav : false
+                }
+            })
+            setCharacters(newCharacters);
+        }
+    }, [data])
+
+    return { characters, loading, error }
+
 }
 
-export default function CharactersLayout({ children }: Children) {
-    const { data, loading, error } = useCharacters();
+export default function CharactersLayout({ children }: { children: Children }) {
+    const { characters, loading, error } = useCharacters();
     return (
         <main className="w-full h-screen flex">
             <aside className="w-[450px] h-screen px-4">
                 <h1 className="font-bold text-[24px] mt-8 mb-5">Rick and Morty List</h1>
                 <SearchBar />
                 {
-                    loading && <p>Loading...</p>
+                    loading && <div className="flex justify-center  h-screen">
+                        <OrbitProgress color={"#8054C7"} size="small" text="" textColor="" />
+                    </div>
                 }
                 {
-                    error && <p>Error: {error.message}</p>
+                    error && <Error error={error.message} />
                 }
                 {
-                    !error && !loading && data && (
+                    !error && !loading && characters.length > 0 && (
                         <div className="flex flex-col overflow-y-auto max-h-[70vh]">
-                            <span className="text-xs uppercase text-gray-400 font-semibold my-4">Starred characters</span>
-                            {/* STARRED CHARACTERS */}
-                            <span className="text-xs uppercase text-gray-400 font-semibold my-4">Characters ({data.characters.results.length})</span>
+                            <span className="text-xs uppercase text-gray-400 font-semibold my-4">Starred characters ({characters.filter(char => char.isFav).length})</span>
                             {
-                                data.characters.results.map(
-                                    (character: Character) => {
-                                        return (
-                                            <CharacterCardList key={character.id} character={character} />
-                                        )
+                                characters.filter(c => c.isFav).map(
+                                    (character: CharacterWithFav) => {
+                                        return <CharacterCardList key={`starred-${character.id}`} character={character} />
+                                    }
+                                )
+                            }
+                            <span className="text-xs uppercase text-gray-400 font-semibold my-4">Characters ({characters.filter(char => !char.isFav).length})</span>
+                            {
+                                characters.filter(c => !c.isFav).map(
+                                    (character: CharacterWithFav) => {
+                                        return <CharacterCardList key={`character-${character.id}`} character={character} />
                                     }
                                 )
                             }
