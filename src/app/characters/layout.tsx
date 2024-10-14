@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 
 import { SearchBar } from "../../components/SearchBar";
@@ -13,6 +13,8 @@ import { CharacterWithFav, Children } from "@/types/generalTypes";
 import { SearchContext } from "@/context/search";
 import { CharactersContext } from "@/context/characters";
 import { FavoriteContext } from "@/context/favorite";
+import { OrbitProgress } from "react-loading-indicators";
+import { Error } from "@/components/Error";
 
 const useCharacters = () => {
     const { search } = useContext(SearchContext);
@@ -50,10 +52,12 @@ export default function CharactersLayout({ children }: { children: Children }) {
                 <h1 className="font-bold text-[24px] mt-8 mb-5">Rick and Morty List</h1>
                 <SearchBar />
                 {
-                    loading && <p>Loading...</p>
+                    loading && <div className="flex justify-center  h-screen">
+                        <OrbitProgress color={"#8054C7"} size="small" text="" textColor="" />
+                    </div>
                 }
                 {
-                    error && <p>Error: {error.message}</p>
+                    error && <Error error={error.message} />
                 }
                 {
                     !error && !loading && characters.length > 0 && (

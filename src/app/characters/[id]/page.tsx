@@ -10,6 +10,8 @@ import { CommentType } from "@/types/generalTypes"
 import { Comment } from "@/components/Comment"
 import { HeartIcon } from "../../../../public/icons/heart"
 import { FavoriteContext } from "@/context/favorite"
+import { OrbitProgress } from "react-loading-indicators"
+import { Error } from "@/components/Error"
 
 type InputRef = HTMLInputElement | null;
 
@@ -51,8 +53,10 @@ export default function Page({ params }: { params: { id: string } }) {
         }
     })
 
-    if (loading) return <div>Loading...</div>
-    if (error) return <div>Error: {error.message}</div>
+    if (loading) return <div className="flex justify-center items-center h-screen">
+        <OrbitProgress color={"#8054C7"} size="small" text="" textColor="" />
+    </div>
+    if (error) return <Error error={error.message} />
     if (!data) return <div>No data</div>
 
     const { name, image, status, species, gender } = data.character
