@@ -50,7 +50,7 @@ export const SearchBar = () => {
             </span>
             {
                 showModal && (
-                    <div className="absolute w-full top-full left-0 bg-white rounded-lg shadow-md p-4 z-10 my-2 border border-gray-100 flex flex-col gap-y-3">
+                    <div className="absolute w-full top-full left-0 bg-white rounded-lg shadow-md p-4 z-20 my-2 border border-gray-100 flex flex-col gap-y-3">
                         <span className="text-sm text-gray-500">Sort list</span>
                         <span className="flex justify-around gap-2">
                             <button onClick={() => handleSort("A-Z")} className={`w-full max-w-[200px] rounded-lg bg-transparent border border-gray-300 py-2 px-4 text-sm font-semibold hover:bg-gray-100 active:bg-primary-100 active:text-primary-600 ${sort === "A-Z" ? 'bg-primary-100 text-primary-600' : ''} `}>

@@ -39,7 +39,7 @@ const useCharacters = () => {
             })
             setCharacters(newCharacters);
         }
-    }, [data, favorite, setCharacters])
+    }, [data])
 
     return { characters, loading, error }
 
@@ -48,8 +48,6 @@ const useCharacters = () => {
 export default function CharactersLayout({ children }: { children: Children }) {
     const { characters, loading, error } = useCharacters();
     const { isLayoutHidden } = useContext(LayoutContext);
-    console.log(`state: ${isLayoutHidden}`)
-
     return (
         <main className="w-full h-screen flex">
             <aside className={`w-[450px] h-screen px-4 py-8 max-md:w-full max-md:py-0 ${isLayoutHidden ? "max-md:hidden" : "max-md:block"}`}>
