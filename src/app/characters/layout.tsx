@@ -15,6 +15,7 @@ import { CharactersContext } from "@/context/characters";
 import { FavoriteContext } from "@/context/favorite";
 import { OrbitProgress } from "react-loading-indicators";
 import { Error } from "@/components/Error";
+import { LayoutContext } from "@/context/layout";
 
 const useCharacters = () => {
     const { search } = useContext(SearchContext);
@@ -38,7 +39,7 @@ const useCharacters = () => {
             })
             setCharacters(newCharacters);
         }
-    }, [data])
+    }, [data, favorite, setCharacters])
 
     return { characters, loading, error }
 
@@ -46,9 +47,12 @@ const useCharacters = () => {
 
 export default function CharactersLayout({ children }: { children: Children }) {
     const { characters, loading, error } = useCharacters();
+    const { isLayoutHidden } = useContext(LayoutContext);
+    console.log(`state: ${isLayoutHidden}`)
+
     return (
         <main className="w-full h-screen flex">
-            <aside className="w-[450px] h-screen px-4">
+            <aside className={`w-[450px] h-screen px-4 py-8 max-md:w-full max-md:py-0 ${isLayoutHidden ? "max-md:hidden" : "max-md:block"}`}>
                 <h1 className="font-bold text-[24px] mt-8 mb-5">Rick and Morty List</h1>
                 <SearchBar />
                 {
@@ -83,7 +87,7 @@ export default function CharactersLayout({ children }: { children: Children }) {
                 }
 
             </aside>
-            <section className="w-full h-screen shadow-2xl shadow-slate-200">{children}</section>
+            <section className={`w-full h-screen shadow-2xl shadow-slate-200 ${isLayoutHidden ? "max-md:block" : "max-md:hidden"}`}>{children}</section>
         </main>
     )
 }
