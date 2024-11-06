@@ -9,11 +9,13 @@ import { HeartIcon } from "../../public/icons/heart";
 import { CharacterWithFav } from "@/types/generalTypes";
 import { CharactersContext } from "@/context/characters";
 import { FavoriteContext } from "@/context/favorite";
+import { LayoutContext } from "@/context/layout";
 
 export const CharacterCardList = ({ character }: { character: CharacterWithFav }) => {
     const { id, name, image, species } = character;
     const { characters, setCharacters } = useContext(CharactersContext);
     const { favorite, setFavorite } = useContext(FavoriteContext);
+    const { isLayoutHidden, setIsLayoutHidden } = useContext(LayoutContext);
 
     const handleClickFav = () => {
         const updatedCharacters = characters.map((char) => {
@@ -49,9 +51,16 @@ export const CharacterCardList = ({ character }: { character: CharacterWithFav }
         setCharacters(updatedCharacters);
     }
 
+    const handleLayoutView = () => {
+        const updateLayoutHidden = !isLayoutHidden
+        setIsLayoutHidden(updateLayoutHidden)
+        localStorage.setItem(`isLayoutHidden`, JSON.stringify(updateLayoutHidden))
+    }
 
     return (
-        <Link href={`/characters/${id}`} className="border-t border-gray-200">
+        <Link href={`/characters/${id}`} className="border-t border-gray-200" onClick={() => {
+            handleLayoutView()
+        }}>
             <div className="flex flex-row justify-between items-center rounded-lg p-4 hover:bg-gray-200 relative">
                 <div className="flex items-center gap-2">
                     <Image loader={() => image} src={image} alt={`imagen de ${name}`} width={40} height={40} className="rounded-full" unoptimized={true} />

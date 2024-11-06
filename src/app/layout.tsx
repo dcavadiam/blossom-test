@@ -5,6 +5,7 @@ import { Children } from "@/types/generalTypes";
 import { SearchProvider } from "@/context/search";
 import { CharactersProvider } from "@/context/characters";
 import { FavoriteProvider } from "@/context/favorite";
+import { LayoutProvider } from "@/context/layout";
 
 export const metadata: Metadata = {
   title: "Rick and Morty Characters",
@@ -21,7 +22,9 @@ export default function RootLayout({
           <SearchProvider>
             <CharactersProvider>
               <FavoriteProvider>
-                {children}
+                <LayoutProvider>
+                  {children}
+                </LayoutProvider>
               </FavoriteProvider>
             </CharactersProvider>
           </SearchProvider>

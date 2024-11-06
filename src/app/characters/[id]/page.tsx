@@ -12,6 +12,9 @@ import { HeartIcon } from "../../../../public/icons/heart"
 import { FavoriteContext } from "@/context/favorite"
 import { OrbitProgress } from "react-loading-indicators"
 import { Error } from "@/components/Error"
+import { GoBackIcon } from "../../../../public/icons/back"
+import { LayoutContext } from "@/context/layout"
+import Link from "next/link"
 
 type InputRef = HTMLInputElement | null;
 
@@ -27,7 +30,9 @@ export default function Page({ params }: { params: { id: string } }) {
         return []
     });
 
+
     const { favorite } = useContext(FavoriteContext);
+    const { isLayoutHidden, setIsLayoutHidden } = useContext(LayoutContext)
 
     const inputRef = useRef<InputRef>(null);
 
@@ -62,7 +67,15 @@ export default function Page({ params }: { params: { id: string } }) {
     const { name, image, status, species, gender } = data.character
 
     return (
-        <div className="flex flex-col px-[5rem] py-[2rem] overflow-x-auto h-full">
+        <div className="flex flex-col px-[5rem] py-[2rem] overflow-x-auto h-full max-md:px-8">
+            <Link href={`/characters`} className=" py-4 md:hidden" onClick={() => {
+                const updateLayoutHidden = !isLayoutHidden
+                setIsLayoutHidden(updateLayoutHidden)
+                localStorage.setItem(`isLayoutHidden`, JSON.stringify(updateLayoutHidden))
+
+            }}>
+                <span> <GoBackIcon /> </span>
+            </Link>
             <div className="relative w-fit">
                 <Image loader={() => image} src={image} alt={`imagen de ${name}`} width={75} height={75} className="rounded-full" unoptimized={true} />
                 <span className="p-1 rounded-full bg-white absolute z-2 right-0 bottom-0 duration-150">
